@@ -194,7 +194,7 @@
     <div class="questions-grid" id="questionsContainer">
     </div>
     
-    <div class="version-footer">v1.0.2</div>
+    <div class="version-footer">v1.0.3</div>
     
     <div class="modal" id="questionModal">
         <button class="close-btn" id="closeModal">&times;</button>
@@ -217,8 +217,10 @@
         let currentQuestion = 0;
         let touchStartX = 0;
         let contentHidden = false;
-        let lastTap = 0;
-        let tapTimeout;
+        
+        let clickCount = 0;
+        let clickTimer = null;
+        let lastClickCoords = { x: 0, y: 0 };
         
         function openQuestionModal(index) {
             currentQuestion = index;
@@ -249,6 +251,44 @@
                 if (document.getElementById('questionModal').style.display === 'flex') {
                     document.getElementById('questionModal').style.visibility = 'visible';
                 }
+            }
+        }
+        
+        function handleClick(event) {
+            const x = event.clientX || (event.touches && event.touches[0] ? event.touches[0].clientX : 0);
+            const y = event.clientY || (event.touches && event.touches[0] ? event.touches[0].clientY : 0);
+            
+            const distance = Math.sqrt(
+                Math.pow(x - lastClickCoords.x, 2) + 
+                Math.pow(y - lastClickCoords.y, 2)
+            );
+            
+            if (distance > 30) {
+                clickCount = 1;
+                lastClickCoords = { x, y };
+                if (clickTimer) clearTimeout(clickTimer);
+                clickTimer = setTimeout(() => {
+                    clickCount = 0;
+                }, 400);
+                return;
+            }
+            
+            clickCount++;
+            
+            if (clickCount === 1) {
+                lastClickCoords = { x, y };
+                if (clickTimer) clearTimeout(clickTimer);
+                clickTimer = setTimeout(() => {
+                    clickCount = 0;
+                }, 400); 
+            }
+            
+            if (clickCount === 2) {
+                event.preventDefault();
+                toggleContent();
+                
+                clickCount = 0;
+                if (clickTimer) clearTimeout(clickTimer);
             }
         }
         
@@ -312,23 +352,8 @@
         document.addEventListener('gesturestart', function(e) {
             e.preventDefault();
         });
-
-        
-        document.body.addEventListener('touchstart', function(e) {
-            const now = new Date().getTime();
-            const timeDiff = now - lastTap;
-            
-            if (timeDiff < 300 && timeDiff > 0) {
-                e.preventDefault();
-                toggleContent();
-            }
-            
-            lastTap = now;
-        });
-        
-        document.addEventListener('dblclick', function() {
-            toggleContent();
-        });
+        document.addEventListener('touchstart', handleClick);
+        document.addEventListener('mousedown', handleClick);
     </script>
 </body>
 </html>
