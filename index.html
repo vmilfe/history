@@ -69,7 +69,6 @@
             user-select: none;
         }
         
-        /* Модальное окно */
         .modal {
             display: none;
             position: fixed;
@@ -162,7 +161,6 @@
             opacity: 0.3;
         }
         
-        /* Стиль для футера с версией */
         .version-footer {
             width: 100%;
             text-align: center;
@@ -312,17 +310,11 @@
             e.preventDefault();
         });
 
-        
         document.body.addEventListener('touchstart', function(e) {
-            const now = new Date().getTime();
-            const timeDiff = now - lastTap;
-            
-            if (timeDiff < 300 && timeDiff > 0) {
+            if (e.touches.length === 2) {
                 e.preventDefault();
                 toggleContent();
             }
-            
-            lastTap = now;
         });
         
         document.addEventListener('dblclick', function() {
