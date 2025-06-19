@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#000000">
+    <!-- Метатег для запрета масштабирования -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <meta name="mobile-web-app-capable" content="yes">
@@ -13,7 +14,7 @@
     <meta name="apple-mobile-web-app-title" content="60 вопросов">
     <link rel="apple-touch-icon" href="icons/icon-192.png">
 
-    <title>60 вопросов</title>
+    <title>Экзамен по истории</title>
     <style>
         * {
             margin: 0;
@@ -193,7 +194,7 @@
     <div class="questions-grid" id="questionsContainer">
     </div>
     
-    <div class="version-footer">v1.0.1</div>
+    <div class="version-footer">v1.0.2</div>
     
     <div class="modal" id="questionModal">
         <button class="close-btn" id="closeModal">&times;</button>
@@ -216,7 +217,8 @@
         let currentQuestion = 0;
         let touchStartX = 0;
         let contentHidden = false;
-        let lastTapTime = 0;
+        let lastTap = 0;
+        let tapTimeout;
         
         function openQuestionModal(index) {
             currentQuestion = index;
@@ -247,20 +249,6 @@
                 if (document.getElementById('questionModal').style.display === 'flex') {
                     document.getElementById('questionModal').style.visibility = 'visible';
                 }
-            }
-        }
-        
-        function handleTap(e) {
-            const currentTime = new Date().getTime();
-            const tapLength = currentTime - lastTapTime;
-            
-            e.preventDefault();
-            
-            if (tapLength < 500 && tapLength > 0) {
-                toggleContent();
-                lastTapTime = 0;
-            } else {
-                lastTapTime = currentTime;
             }
         }
         
@@ -320,12 +308,26 @@
                 }
             });
         });
-        document.addEventListener('touchend', handleTap);
-        document.addEventListener('dblclick', function(e) {
-            toggleContent();
-        });
+        
         document.addEventListener('gesturestart', function(e) {
             e.preventDefault();
+        });
+
+        
+        document.body.addEventListener('touchstart', function(e) {
+            const now = new Date().getTime();
+            const timeDiff = now - lastTap;
+            
+            if (timeDiff < 300 && timeDiff > 0) {
+                e.preventDefault();
+                toggleContent();
+            }
+            
+            lastTap = now;
+        });
+        
+        document.addEventListener('dblclick', function() {
+            toggleContent();
         });
     </script>
 </body>
