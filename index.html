@@ -14,6 +14,30 @@
     <link rel="apple-touch-icon" href="icons/icon-192.png">
 
     <title>Экзамен по истории</title>
+    <script>
+        const answers = [
+            "<b>encoding</b> double", 
+            "Test",
+            "<b>encoding</b> double", 
+            "Test",
+            "<b>encoding</b> double", 
+            "Test",
+            "<b>encoding</b> double", 
+            "Test",
+            "<b>encoding</b> double", 
+            "Test",
+            "<b>encoding</b> double", 
+            "Test",
+            "<b>encoding</b> double", 
+            "Test",
+            "<b>encoding</b> double", 
+            "Test",
+            "<b>encoding</b> double", 
+            "Test",
+            "<b>encoding</b> double", 
+            "Test"
+        ]
+    </script>
     <style>
         * {
             margin: 0;
@@ -207,10 +231,6 @@
     </div>
     
     <script>
-        const questions = [
-            "<b>encoding</b> double", "Test"
-        ]
-        
         let currentQuestion = 0;
         let touchStartX = 0;
         let contentHidden = false;
@@ -220,11 +240,11 @@
         function openQuestionModal(index) {
             currentQuestion = index;
             document.getElementById('modalQuestionNumber').textContent = index + 1;
-            document.getElementById('questionContent').innerHTML = questions[index]; 
+            document.getElementById('questionContent').innerHTML = answers[index]; 
             document.getElementById('questionModal').style.display = 'flex';
             
             document.getElementById('prevBtn').disabled = index === 0;
-            document.getElementById('nextBtn').disabled = index === questions.length - 1;
+            document.getElementById('nextBtn').disabled = index === answers.length - 1;
         }
         
         function closeQuestionModal() {
@@ -269,7 +289,7 @@
             });
             
             document.getElementById('nextBtn').addEventListener('click', function() {
-                if (currentQuestion < questions.length - 1) {
+                if (currentQuestion < answers.length - 1) {
                     openQuestionModal(currentQuestion + 1);
                 }
             });
@@ -278,7 +298,7 @@
                 if (document.getElementById('questionModal').style.display === 'flex') {
                     if (event.key === 'ArrowLeft' && currentQuestion > 0) {
                         openQuestionModal(currentQuestion - 1);
-                    } else if (event.key === 'ArrowRight' && currentQuestion < questions.length - 1) {
+                    } else if (event.key === 'ArrowRight' && currentQuestion < answers.length - 1) {
                         openQuestionModal(currentQuestion + 1);
                     } else if (event.key === 'Escape') {
                         closeQuestionModal();
@@ -297,7 +317,7 @@
                 const diffX = touchStartX - touchEndX;
                 
                 if (Math.abs(diffX) > 50) {
-                    if (diffX > 0 && currentQuestion < questions.length - 1) {
+                    if (diffX > 0 && currentQuestion < answers.length - 1) {
                         openQuestionModal(currentQuestion + 1);
                     } else if (diffX < 0 && currentQuestion > 0) {
                         openQuestionModal(currentQuestion - 1);
