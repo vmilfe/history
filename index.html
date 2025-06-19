@@ -50,7 +50,7 @@
         .question-btn {
             background: transparent;
             color: #fff;
-            font-size: 10vmin;
+            font-size: 7vmin;
             font-weight: 100;
             border: none;
             cursor: pointer;
@@ -96,7 +96,7 @@
         .question-number {
             font-size: 8vmin;
             font-weight: 100;
-            color: #fff;
+            color: #656565;
             text-align: center;
             padding: 3vmin 0;
             position: absolute;
@@ -122,7 +122,7 @@
             position: absolute;
             top: 2vmin;
             right: 2vmin;
-            color: #fff;
+            color: #656565;
             background: transparent;
             border: none;
             font-size: 15vmin;
@@ -183,7 +183,7 @@
     <div class="modal" id="questionModal">
         <button class="close-btn" id="closeModal">&times;</button>
         <div class="modal-content">
-            <div class="question-number">Вопрос <span id="modalQuestionNumber">1</span></div>
+            <div class="question-number">Билет <span id="modalQuestionNumber">1</span></div>
             <div class="question-text" id="questionContent">
             </div>
             <div class="navigation">
@@ -194,11 +194,9 @@
     </div>
     
     <script>
-        const questions = Array.from({length: 60}, (_, i) => 
-            `Текст вопроса ${i+1}. Замените этот текст на ваш собственный вопрос. 
-            Этот интерфейс работает на всех устройствах: iPhone, Android, ПК. 
-            Просто нажмите на цифру, чтобы увидеть вопрос.`
-        );
+        const questions = [
+            "<b>encoding</b> double", "Test"
+        ]
         
         let currentQuestion = 0;
         let touchStartX = 0;
@@ -206,7 +204,7 @@
         function openQuestionModal(index) {
             currentQuestion = index;
             document.getElementById('modalQuestionNumber').textContent = index + 1;
-            document.getElementById('questionContent').textContent = questions[index];
+            document.getElementById('questionContent').innerHTML = questions[index]; 
             document.getElementById('questionModal').style.display = 'flex';
             
             document.getElementById('prevBtn').disabled = index === 0;
