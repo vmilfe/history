@@ -16,8 +16,7 @@
     <title>Экзамен по истории</title>
     <script>
         const answers = [
-            "<b>encoding</b> double", 
-            "Test",
+            "Причины Великой Российской революции. Февральский этап.<br><br><b>Причины революции:</b><ul><li>Затяжная Первая мировая война</li><li>Экономический кризис</li><li>Политический кризис самодержавия</li><li>Нерешенный аграрный вопрос</li><li>Рост революционных настроений</li></ul><b>Февральский этап:</b><ul><li>23-27 февраля 1917 г. - массовые демонстрации в Петрограде</li><li>27 февраля - переход войск на сторону восставших</li><li>2 марта - отречение Николая II</li><li>Формирование Временного правительства</li><li>Создание Петроградского Совета</li><li>Установление двоевластия</li></ul>",
             "<b>encoding</b> double", 
             "Test",
             "<b>encoding</b> double", 
@@ -114,9 +113,9 @@
             flex-direction: column;
             height: 100%;
             width: 100%;
-            padding: 5vmin;
+            padding: 0;
             box-sizing: border-box;
-            justify-content: space-between;
+            justify-content: flex-start;
         }
         
         .question-number {
@@ -125,23 +124,38 @@
             color: #656565;
             text-align: center;
             padding: 3vmin 0;
-            position: absolute;
+            position: fixed;
             top: 0;
             width: 100%;
             left: 0;
+            background-color: #000;
+            z-index: 10;
         }
-        
+
         .question-text {
-            font-size: 7vmin;
+            font-size: 5vmin;
             line-height: 1.4;
             color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 5vmin;
+            display: block;
+            text-align: left;
+            padding: 20vmin 5vmin 15vmin;
             font-weight: 300;
             flex-grow: 1;
+            overflow-y: auto;
+            max-height: 100%;
+            margin-top: 0;
+            margin-bottom: 0;
+            position: relative;
+            z-index: 5;
+        }
+
+        .question-text ul {
+            margin-left: 5vmin;
+            margin-bottom: 3vmin;
+        }
+
+        .question-text li {
+            margin-bottom: 1vmin;
         }
         
         .close-btn {
